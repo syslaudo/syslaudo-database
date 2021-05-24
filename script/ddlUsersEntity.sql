@@ -25,25 +25,6 @@ ALTER TABLE abfln.exames ADD CONSTRAINT fk_exame_pedido FOREIGN KEY (id_pedido) 
 
 
 
--- table medicos 
-
-CREATE TABLE abfln.medicos (
-	id_medico uuid DEFAULT uuid_generate_v4() NOT NULL,
-	crm varchar NOT NULL,
-	ativo bool DEFAULT true NOT NULL,
-	id uuid DEFAULT uuid_generate_v4() NOT NULL,
-	cpf varchar NOT NULL,
-	CONSTRAINT "PK_4fdf7753e28921b205480234672" PRIMARY KEY (id_medico,id)
-);
-CREATE UNIQUE INDEX unique_id_medico ON abfln.medicos (id_medico);
-
-
--- abfln.medicos foreign keys
-
-ALTER TABLE abfln.medicos ADD CONSTRAINT fk_id_usuario FOREIGN KEY (id) REFERENCES abfln.usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE;
-
-
-
 -- table migrations 
 
 CREATE TABLE abfln.migrations (
@@ -95,23 +76,6 @@ ALTER TABLE abfln.pedidos ADD CONSTRAINT fk_pedido_paciente FOREIGN KEY (id_paci
 
 
 
--- table professores 
-
-CREATE TABLE abfln.professores (
-	id_professor uuid DEFAULT uuid_generate_v4() NOT NULL,
-	titulacao varchar NOT NULL,
-	id_medico uuid DEFAULT uuid_generate_v4() NOT NULL,
-	CONSTRAINT "PK_fae3dad2bb3dbf2ba7797e3c789" PRIMARY KEY (id_professor)
-);
-CREATE UNIQUE INDEX "UQ_b85aeac361d94c82b8c507edd97" ON abfln.professores (id_medico);
-
-
--- abfln.professores foreign keys
-
-ALTER TABLE abfln.professores ADD CONSTRAINT fk_professor_medico FOREIGN KEY (id_professor) REFERENCES abfln.medicos(id_medico,id);
-
-
-
 -- table recomendacoes 
 
 CREATE TABLE abfln.recomendacoes (
@@ -132,21 +96,6 @@ CREATE UNIQUE INDEX unique_id_recomendacao ON abfln.recomendacoes (id_recomendac
 -- abfln.recomendacoes foreign keys
 
 ALTER TABLE abfln.recomendacoes ADD CONSTRAINT fk_recomendacoes_pedido FOREIGN KEY (id_pedido) REFERENCES abfln.pedidos(id_pedido);
-
-
-
--- table residentes 
-
-CREATE TABLE abfln.residentes (
-	id_residente uuid DEFAULT uuid_generate_v4() NOT NULL,
-	ano_residencia numeric(131089,0) NOT NULL,
-	CONSTRAINT "PK_ed284bbd7c9497a394488f1996f" PRIMARY KEY (id_residente)
-);
-
-
--- abfln.residentes foreign keys
-
-ALTER TABLE abfln.residentes ADD CONSTRAINT fk_residente_medico FOREIGN KEY (id_residente) REFERENCES abfln.medicos(id_medico,id);
 
 
 
